@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -40,6 +42,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $authorPseudonym;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Book", mappedBy="author")
+     */
+    private $books;
+
+    public function __construct()
+    {
+        $this->books = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -127,6 +139,37 @@ class User implements UserInterface
     public function setAuthorPseudonym(string $authorPseudonym): self
     {
         $this->authorPseudonym = $authorPseudonym;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Book[]
+     */
+    public function getBooks(): Collection
+    {
+        return $this->books;
+    }
+
+    public function addBook(Book $book): self
+    {
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+            $book->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if ($this->books->contains($book)) {
+            $this->books->removeElement($book);
+            // set the owning side to null (unless already changed)
+            if ($book->getAuthor() === $this) {
+                $book->setAuthor(null);
+            }
+        }
 
         return $this;
     }
