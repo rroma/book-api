@@ -7,11 +7,82 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"email"})
+ * @ApiResource(
+ *     itemOperations={
+ *         "auth"={
+ *             "route_name"="api_auth",
+ *             "method" = "post",
+ *             "normalization_context"={
+ *                 "groups"={"auth"},
+ *                 "swagger_definition_name": "Auth"
+ *             },
+ *             "openapi_context" = {
+ *                 "example_value"="one",
+ *                 "enum" = {"one", "two"},
+ *                 "parameters" = {
+ *                      {
+ *                          "type": "object",
+ *                          "name" = "credentials",
+ *                          "schema" = {
+ *                              "type" = "object",
+ *                              "properties" = {
+ *                                  "email" = {"type" = "string"},
+ *                                  "password" = {"type" = "string"},
+ *                              }
+ *                          },
+ *                          "in" = "body",
+ *                          "required" = "true",
+ *                          "description" = "User's credentials"
+ *                      },
+ *                  },
+ *                  "responses" = {
+ *                      "200" = {
+ *                          "description" = "Successful login attempt, returning a new token",
+ *                          "content" = {
+ *                              "application/json" = {
+ *                                  "schema" = {
+ *                                      "type" = "object",
+ *                                      "properties" = {
+ *                                          "token" = {"type" = "string"},
+ *                                      }
+ *                                  },
+ *                                  "example" = {
+ *                                      "token" = "eyJ0eXAiOiJKV1QiLCJhbGciOiF33iJ0904N8f7IX9Pd0",
+ *                                  },
+ *                              }
+ *                          }
+ *                      }
+ *                  },
+ *                  "summary" = "Performs a login attempt, returning a valid JWT token on success",
+ *                  "requestBody" = {
+ *                      "content" = {
+ *                          "application/json" = {
+ *                              "schema" = {
+ *                                  "type" = "object",
+ *                                  "properties" = {
+ *                                      "email" = {"type" = "string"},
+ *                                      "password" = {"type" = "string"},
+ *                                  }
+ *                              },
+ *                              "example" = {
+ *                                  "email" = "j.k@rowling.com",
+ *                                  "password" = "1111111"
+ *                              }
+ *                          },
+ *                      },
+ *                  },
+ *             },
+ *
+ *         }
+ *     },
+ *     collectionOperations={}
+ * )
  */
 class User implements UserInterface
 {
