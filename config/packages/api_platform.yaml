@@ -3,10 +3,6 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
         json: ['application/merge-patch+json']
-    formats:
-        json: ['application/json']
-        xml:  ['application/xml', 'text/xml']
-        html: ['text/html']
     swagger:
        api_keys:
           apiKey:
