@@ -42,11 +42,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *                 }
  *             }
  *         },
- *         "get"
  *     },
- *     itemOperations={
- *         "get"
- *     }
+ *     itemOperations={}
  * )
  * @Vich\Uploadable
  */

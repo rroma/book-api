@@ -18,15 +18,34 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $password = '1111111';
+        $authors = [
+            [
+                'pseudonym' => 'J. K. Rowling',
+                'email' => 'j.k@rowling.com',
+                'password' => 'AjADuFyh',
+            ],
+            [
+                'pseudonym' => 'Darth Wader',
+                'email' => 'darth.wader@gmail.com',
+                'password' => 'phDJT8kc',
+            ],
+            [
+                'pseudonym' => 'Stephen King',
+                'email' => 'stephen.king@mail.com',
+                'password' => 'TWpPWnQq',
+            ]
+        ];
 
-        $user = new User();
-        $user->setEmail('j.k@rowling.com');
-        $user->setAuthorPseudonym('J. K. Rowling');
-        $password = $this->encoder->encodePassword($user, $password);
-        $user->setPassword($password);
+        foreach ($authors as $author) {
+            $user = new User();
+            $user->setEmail($author['email']);
+            $user->setAuthorPseudonym($author['pseudonym']);
+            $password = $this->encoder->encodePassword($user, $author['password']);
+            $user->setPassword($password);
 
-        $manager->persist($user);
+            $manager->persist($user);
+        }
+
         $manager->flush();
     }
 }

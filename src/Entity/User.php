@@ -53,7 +53,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *                                      }
  *                                  },
  *                                  "example" = {
- *                                      "token" = "eyJ0eXAiOiJKV1QiLCJhbGciOiF33iJ0904N8f7IX9Pd0",
+ *                                      "token" = "eyJ0eXAiOiJKV1QiLCJhbGciOiF33iJ0904N8f7IX9Pd0XAiOiJKV1QiLCJhbGciOiF33iJ0904N8f7",
  *                                  },
  *                              }
  *                          }
@@ -72,7 +72,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *                              },
  *                              "example" = {
  *                                  "email" = "j.k@rowling.com",
- *                                  "password" = "1111111"
+ *                                  "password" = "AjADuFyh"
  *                              }
  *                          },
  *                      },

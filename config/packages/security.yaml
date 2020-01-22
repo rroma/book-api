@@ -23,9 +23,9 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
         open_api:
-          pattern: ^/api/books
-          methods: [GET]
-          security: false
+            pattern: ^/api/books
+            methods: [GET]
+            security: false
         api:
             pattern: ^/api
             stateless: true

@@ -20,13 +20,13 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  *     itemOperations={
  *         "get",
- *         "put"={"access_control"="is_granted('ROLE_USER') and object.author = user"},
- *         "delete"={"access_control"="is_granted('ROLE_USER') and object.author = user"},
- *         "patch"={"access_control"="is_granted('ROLE_USER') and object.author = user"}
+ *         "put"={"security"="is_granted('BOOK_EDIT', previous_object)"},
+ *         "delete"={"security"="is_granted('ROLE_USER') and object.author == user"},
+ *         "patch"={"security"="is_granted('ROLE_USER') and object.author == user"}
  *     },
  *     collectionOperations={
  *         "get",
- *         "post"={"access_control"="is_granted('ROLE_USER')","denormalization_context"={
+ *         "post"={"security"="is_granted('ROLE_USER')","denormalization_context"={
  *                 "groups"={"write"},
  *             },}
  *     }
