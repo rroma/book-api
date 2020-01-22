@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,15 +21,12 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  *     itemOperations={
  *         "get",
- *         "put"={"security"="is_granted('BOOK_EDIT', previous_object)"},
- *         "delete"={"security"="is_granted('ROLE_USER') and object.author == user"},
- *         "patch"={"security"="is_granted('ROLE_USER') and object.author == user"}
+ *         "delete"={"security"="is_granted('BOOK_DELETE', previous_object)"},
+ *         "patch"={"security"="is_granted('BOOK_EDIT', previous_object)"}
  *     },
  *     collectionOperations={
  *         "get",
- *         "post"={"security"="is_granted('ROLE_USER')","denormalization_context"={
- *                 "groups"={"write"},
- *             },}
+ *         "post"={"security"="is_granted('BOOK_ADD')"}
  *     }
  * )
  * @ApiFilter(SearchFilter::class, properties={
@@ -50,18 +48,34 @@ class Book
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"read", "write"})
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      allowEmptyString = false,
+     * )
+     * @Assert\NotNull()
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"read", "write"})
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 2000,
+     *      allowEmptyString = false,
+     * )
+     * @Assert\NotNull()
      */
     private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Groups({"read", "write"})
+     * @Assert\GreaterThan(value = 0)
+     * @Assert\LessThan(value = 9999999999)
+     *
+     * @Assert\NotNull()
      */
     private $price;
 

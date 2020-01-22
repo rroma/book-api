@@ -23,8 +23,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *                 "swagger_definition_name": "Auth"
  *             },
  *             "openapi_context" = {
- *                 "example_value"="one",
- *                 "enum" = {"one", "two"},
  *                 "parameters" = {
  *                      {
  *                          "type": "object",

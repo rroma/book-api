@@ -43,7 +43,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *             }
  *         },
  *     },
- *     itemOperations={}
+ *     itemOperations={"get"}
  * )
  * @Vich\Uploadable
  */
@@ -69,7 +69,11 @@ class Media
     /**
      * @var File|null
      *
-     * @Assert\NotNull(groups={"media_create"})
+     * @Assert\NotNull()
+     * @Assert\Image(
+     *     maxSize = "5M",
+     *     mimeTypes = {"image/jpg","image/jpeg","image/png","gif"},
+     * )
      * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
      */
     protected $file;

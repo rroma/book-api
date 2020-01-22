@@ -4,7 +4,6 @@ namespace App\Tests\Functional;
 
 use App\Test\ApiTestCase;
 use App\Test\UserTestTrait;
-use App\Entity\Book;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
 class BookResourceTest extends ApiTestCase
@@ -56,6 +55,24 @@ class BookResourceTest extends ApiTestCase
         ]);
 
         $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testDarthWaderCantPublishBook()
+    {
+        $user = $this->createUser('Darth Wader', 'darth@wader.net');
+
+        $this->login($user);
+
+        $response = $this->request('POST', '/api/books', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'title' => 'Rise and Fall of Darth Wader',
+                'description' => 'Rise and Fall of Darth Wader',
+                'price' => '21.50',
+            ]
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
     }
 
     public function testJWTAuthOk()

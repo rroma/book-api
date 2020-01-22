@@ -15,7 +15,11 @@ class BookVoter extends Voter
 
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['BOOK_ADD', 'BOOK_EDIT', 'BOOK_DELETE'])
+        if ($attribute == 'BOOK_ADD') {
+            return true;
+        }
+
+        return in_array($attribute, ['BOOK_EDIT', 'BOOK_DELETE'])
             && $subject instanceof Book;
     }
 
@@ -27,8 +31,12 @@ class BookVoter extends Voter
             return false;
         }
 
-        if (in_array($user->getAuthorPseudonym(), self::BANNED_AUTHORS)) {
-            return false;
+        if ($attribute == 'BOOK_ADD') {
+            if (in_array($user->getAuthorPseudonym(), self::BANNED_AUTHORS)) {
+                return false;
+            }
+
+            return true;
         }
 
         if($subject->getAuthor() === $user) {
