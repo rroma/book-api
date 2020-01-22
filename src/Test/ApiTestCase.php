@@ -34,7 +34,7 @@ class ApiTestCase extends BaseTestCase
     protected function request(string $method, string $url, array $options = []): ResponseInterface
     {
         if ($this->authToken) {
-            $headers = $options['headers'];
+            $headers = $options['headers'] ?? [];
             if (!isset($headers['Authorization']) && !isset($headers['authorization'])) {
                 $headers['Authorization'] = 'Bearer '.$this->authToken;
             }

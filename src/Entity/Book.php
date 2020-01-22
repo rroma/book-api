@@ -21,8 +21,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     },
  *     itemOperations={
  *         "get",
- *         "delete"={"security"="is_granted('BOOK_DELETE', previous_object)"},
- *         "patch"={"security"="is_granted('BOOK_EDIT', previous_object)"}
+ *         "delete"={"security"="is_granted('BOOK_DELETE', object)"},
+ *         "patch"={"security"="is_granted('BOOK_EDIT', object)"}
  *     },
  *     collectionOperations={
  *         "get",
@@ -72,9 +72,9 @@ class Book
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      * @Groups({"read", "write"})
+     * @Assert\Type(type="numeric")
      * @Assert\GreaterThan(value = 0)
      * @Assert\LessThan(value = 9999999999)
-     *
      * @Assert\NotNull()
      */
     private $price;
