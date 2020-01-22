@@ -13,12 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource(
- *     normalizationContext={
- *         "groups"={"read"}
- *     },
- *     denormalizationContext={
- *         "groups"={"write"}
- *     },
+ *     normalizationContext={"groups"={"read"}},
+ *     denormalizationContext={"groups"={"write"}},
  *     itemOperations={
  *         "get",
  *         "delete"={"security"="is_granted('BOOK_DELETE', object)"},

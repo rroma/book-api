@@ -36,7 +36,7 @@ class JWTAuthTest extends ApiTestCase
         $email = 'non-existent@user.com';
         $password = 'dummypass';
 
-        $response = $this->request('POST', '/api/auth', [
+        $this->request('POST', '/api/auth', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'email' => $email,
