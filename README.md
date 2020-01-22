@@ -43,3 +43,21 @@ going into production - then push your changes to the master branch. After you h
 All the best and happy coding,
 
 The Werbelift GmbH Team
+
+### Project Setup
+
+- Clone the repo
+- Fill out your .env file for example .env.local and .env.test.local for local setup
+- Run **composer install**
+- Setup dev and test databases by running
+  - bin/console doctrine:database:create --env=dev
+  - bin/console doctrine:database:create --env=test
+  - bin/console doctrine:schema:create --env=dev
+  - bin/console doctrine:schema:create --env=test
+- Load fixtures with user's data for testing purposes  
+  - bin/console doctrine:fixtures:load --env=dev
+  - User credentials can be found in src/DataFixtures/UserFixtures.php
+  - There you also can find Darth Wader user that's not able to publish books
+- Run symfony local web server with **symfony server:start -d**
+- The API docs will be accessible with http://localhost:8000/api url
+- Run tests with bin/phpunit
