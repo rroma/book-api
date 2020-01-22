@@ -25,20 +25,6 @@ class BookResourceTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(401);
     }
 
-    public function testEditBookRequiresAuth()
-    {
-        $response = $this->request('POST', '/api/books', [
-            'headers' => ['Content-Type' => 'application/json'],
-            'json' => [
-                'title' => 'The Great Gatsby',
-                'description' => 'This exemplary novel of the Jazz Age has been acclaimed by generations of readers.',
-                'price' => '25.90',
-            ]
-        ]);
-
-        $this->assertResponseStatusCodeSame(401);
-    }
-
     public function testPublishBookOk()
     {
         $user = $this->createUser('Scott Fitzgerald', 'Scott@Fitzgerald.net');
@@ -75,23 +61,17 @@ class BookResourceTest extends ApiTestCase
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testJWTAuthOk()
+    public function testAddBookRequiresAuth()
     {
-        $email = 'j.k@rowling.com';
-        $password = '';
-        $this->createUser('J. K. Rowling', $email, $password);
-
-        $response = $this->request('POST', '/api/auth', [
+        $response = $this->request('POST', '/api/books', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
-                'email' => $email,
-                'password' => $password,
-            ],
+                'title' => 'The Great Gatsby',
+                'description' => 'This exemplary novel of the Jazz Age has been acclaimed by generations of readers.',
+                'price' => '25.90',
+            ]
         ]);
 
-        $this->assertResponseStatusCodeSame(200);
-        $decoded = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('token', $decoded);
-        $this->assertNotEmpty($decoded['token']);
+        $this->assertResponseStatusCodeSame(401);
     }
 }
