@@ -22,8 +22,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  *         "post"={
  *             "controller"=UploadMediaAction::class,
  *             "deserialize"=false,
- *             "access_control"="is_granted('ROLE_USER')",
- *             "validation_groups"={"Default", "media_create"},
+ *             "security"="is_granted('ROLE_USER')",
  *             "openapi_context"={
  *                 "requestBody"={
  *                     "content"={

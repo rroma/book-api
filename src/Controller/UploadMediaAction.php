@@ -22,6 +22,7 @@ class UploadMediaAction
 
     public function __invoke(Request $request): Media
     {
+        echo var_export($_FILES);exit;
         $media = new Media();
         $form = $this->factory->create(MediaType::class, $media);
 

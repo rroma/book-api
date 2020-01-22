@@ -8,13 +8,10 @@ use App\Entity\User;
 
 trait MediaTestTrait
 {
-    public function createMedia(User $author, string $title, string $description, float $price): Book
+    public function createMedia(string $filePath): Media
     {
         $media = new Media();
-        $media->setAuthor($author);
-        $media->setTitle($title);
-        $media->setDescription($description);
-        $media->setPrice($price);
+        $media->setFilePath($filePath);
 
         $manager = $this->client->getContainer()
             ->get('doctrine')->getManager();

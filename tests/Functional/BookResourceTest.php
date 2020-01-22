@@ -4,6 +4,7 @@ namespace App\Tests\Functional;
 
 use App\Test\ApiTestCase;
 use App\Test\BookTestTrait;
+use App\Test\MediaTestTrait;
 use App\Test\UserTestTrait;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 
@@ -11,6 +12,7 @@ class BookResourceTest extends ApiTestCase
 {
     use UserTestTrait;
     use BookTestTrait;
+    use MediaTestTrait;
     use RefreshDatabaseTrait;
 
     public function testAddBookRequiresAuth()
@@ -33,16 +35,34 @@ class BookResourceTest extends ApiTestCase
 
         $this->login($user);
 
-        $this->request('POST', '/api/books', [
+        $media = $this->createMedia('book-cover-test.png');
+
+        $response = $this->request('POST', '/api/books', [
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'title' => 'The Great Gatsby',
                 'description' => 'This exemplary novel of the Jazz Age has been acclaimed by generations of readers.',
                 'price' => '25.90',
+                'coverImage' => '/api/media/'.$media->getId()
             ]
         ]);
 
+        $this->client->getContainer()->get('doctrine')->getManager()->refresh($user);
         $this->assertResponseStatusCodeSame(201);
+
+        $book = $user->getBooks()->get(0);
+
+        $data = $response->toArray();
+        $this->assertEquals([
+            '@context' => '/api/contexts/Book',
+            '@id' => '/api/books/'.$book->getId(),
+            '@type' => 'Book',
+            'title' => 'The Great Gatsby',
+            'description' => 'This exemplary novel of the Jazz Age has been acclaimed by generations of readers.',
+            'price' => '25.90',
+            'author' => 'Scott Fitzgerald',
+            'coverImage' => '/media/book-cover-test.png'
+        ], $data);
     }
 
     public function testDarthWaderCantAddBook()
